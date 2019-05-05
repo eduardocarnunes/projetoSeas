@@ -1,10 +1,25 @@
 package com.projetoSeas.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Estacao {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
+public class Estacao implements Serializable{
+	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
 	private String latitude;
@@ -17,8 +32,12 @@ public class Estacao {
 	private String umidadeFoliar;
 	private String radiacaoSolar;
 	
+	@JsonIgnore
+	@OneToMany(mappedBy="estacao")
 	private List<Talhao> talhoes = new ArrayList<>();
 	
+	@ManyToOne
+	@JoinColumn(name="propriedade_id")
 	private Propriedade propriedade;
 	
 	public Estacao() {

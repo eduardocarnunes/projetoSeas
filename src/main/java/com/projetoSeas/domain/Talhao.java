@@ -1,20 +1,56 @@
 package com.projetoSeas.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Talhao {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
+public class Talhao implements Serializable{
+	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
 	private String descricao;
 	
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name="TALHAO_CULTURA", 
+		joinColumns=@JoinColumn(name="talhao_id"),
+		inverseJoinColumns=@JoinColumn(name="cultura_id")
+	)	
 	private List<Cultura> culturas = new ArrayList<>();
 	
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name="TALHAO_PRAGAS", 
+		joinColumns=@JoinColumn(name="talhao_id"),
+		inverseJoinColumns=@JoinColumn(name="praga_id")
+	)	
 	private List<Praga> pragas = new ArrayList<>();
 	
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name="DOENCA_PRAGAS", 
+		joinColumns=@JoinColumn(name="talhao_id"),
+		inverseJoinColumns=@JoinColumn(name="doenca_id")
+	)	
 	private List<Doenca> doencas = new ArrayList<>();
 	
+	@ManyToOne
+	@JoinColumn(name="estacao_id")
 	private Estacao estacao;
 	
 	public Talhao() {
@@ -27,6 +63,7 @@ public class Talhao {
 		this.nome = nome;
 		this.descricao = descricao;
 		this.estacao = estacao;
+		
 	}
 
 	public Integer getId() {
@@ -60,7 +97,8 @@ public class Talhao {
 	public void setCulturas(List<Cultura> culturas) {
 		this.culturas = culturas;
 	}
-
+	
+	/**
 	public List<Praga> getPragas() {
 		return pragas;
 	}
@@ -76,6 +114,7 @@ public class Talhao {
 	public void setDoencas(List<Doenca> doencas) {
 		this.doencas = doencas;
 	}
+	
 
 	public Estacao getEstacao() {
 		return estacao;
@@ -84,6 +123,7 @@ public class Talhao {
 	public void setEstacao(Estacao estacao) {
 		this.estacao = estacao;
 	}
+	**/
 
 	@Override
 	public int hashCode() {
